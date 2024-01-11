@@ -1,0 +1,21 @@
+version: '3'
+
+env:
+  PARENT_DIR: ../../taskfile_tutorial
+  CURRENT_DIR:
+    sh: echo $PWD
+
+dotenv: ['.env']
+
+tasks:
+  list_directories_under_parent_dir:
+    cmds:
+      - find $PARENT_DIR -type d
+  
+  list_files_under_current_dir:
+    cmds:
+      - find $CURRENT_DIR -type f
+  
+  create_new_dir:
+    cmds:
+      - mkdir -p $DIR_TO_CREATE && ls ./

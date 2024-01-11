@@ -1,0 +1,16 @@
+version: '3'
+
+tasks:
+  main-task:
+    cmds:
+      - task: task-to-be-called
+      - task: another-task
+      - echo "Both done"
+
+  task-to-be-called:
+    cmds:
+      - echo "Task to be called"
+
+  another-task:
+    cmds:
+      - echo "Another task"

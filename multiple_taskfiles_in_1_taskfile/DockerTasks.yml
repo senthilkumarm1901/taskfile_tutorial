@@ -1,0 +1,10 @@
+version: '3'
+
+tasks:
+  list_python_images:
+    cmds:
+      - echo "The Python Docker images are"
+      - docker image ls | grep -E "python|ubuntu" | awk '{ print $1, $2 }'
+      - echo ""
+    silent: true
+

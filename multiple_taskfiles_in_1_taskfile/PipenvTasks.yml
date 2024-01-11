@@ -1,0 +1,12 @@
+version: '3'
+
+tasks:
+  list_locations_of_pipenv_environments:
+  vars: { 'location1': '~/my_projects', 'location2': '~/my_learnings', }
+    cmds:
+      - echo "The Python pipenv Environments are"
+      - echo "Locating pipenv environments in `~/my_projects`"
+      - find {{.location1}} -type d -name ".venv" | rev | cut -d / -f 2- | rev
+      - echo "Locating pipenv environments in `~/my_learnings`"
+      - find {{.location2}} -type d -name ".venv" | rev | cut -d / -f 2- | rev
+    silent: true

@@ -1,0 +1,33 @@
+version: "3"
+
+env:
+  LAMBDA_FUNCTION_NAME: 
+    sh: basename $PWD
+    # the above command picks up the folder name `hello_lambda`
+
+tasks:
+  test_event_1:
+    cmds:
+      - |
+      aws lambda invoke \
+      --function-name "$LAMBDA_FUNCTION_NAME" \
+      --invocation-type 'RequestResponse' \
+      --payload file://${{.TASK}} \
+      output.json && cat output.json | jq) > "output_"{{.TASK}}".json" && \
+      cat "output_"{{.TASK}}".json"
+
+  test_event_2:
+    cmds:
+      - |
+      aws lambda invoke \
+      --function-name "$LAMBDA_FUNCTION_NAME" \
+      --invocation-type 'RequestResponse' \
+      --payload file://${{.TASK}} \
+      output.json && cat output.json | jq) > "output_"{{.TASK}}".json" && \
+      cat "output_"{{.TASK}}".json"
+
+  clean_lambda:
+    cmds:
+      - aws lambda delete-function \
+      --function-name "$LAMBDA_FUNCTION_NAME" 
+    

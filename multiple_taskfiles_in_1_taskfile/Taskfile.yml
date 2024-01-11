@@ -1,0 +1,14 @@
+version: '3'
+
+includes:
+  conda_tasks:
+    taskfile: ./CondaTasks.yml
+  docker_tasks:
+    taskfile: ./DockerTasks.yml
+
+tasks:
+  list_python_environments:
+    cmds:
+      - task conda_tasks:list_python_environments
+      - task docker_tasks:list_python_images
+    silent: true

@@ -1,0 +1,34 @@
+version: "3"
+
+env: 
+  iam_policy_json_file: ./supporting_files/iam_tasks/sample_iam_policy.json
+  trust_policy_json_file: ./supporting_files/iam_tasks/trust_policy.json
+  policy_name: just_an_empty_placeholder_policy
+  role_name: invoke_hello_lambda
+
+  create_policy:
+    cmds:
+      - aws iam create-policy --policy-name $policy_name --policy-document file://${iam_policy_json_file}
+    silent: false
+  
+  create_role:
+    env:
+      trust_policy_json: trust-policy.json
+    cmds:
+      - aws iam create-role --role-name $role_name --assume-role-policy-document file://${trust_policy_json_file}
+    silent: false
+  
+  attach_policy_to_role:
+    cmds:
+      - aws iam attach-role-policy --role-name $role_name --policy-arn "arn:aws:iam::${account_id}:policy/${just_an_empty_placeholder_policy}"
+    silent: false
+
+ get_role_arn:
+    cmds:
+      - echo "ROLE_ARN=$(aws iam get-role --role-name $role_name --query "Role.Arn" --output text)" > ./supporting_files/iam_tasks/final_role_arn.txt
+
+  clean_iam_policy_and_role:
+    cmds:
+      - aws iam detach-role-policy --role-name $role_name --policy-arn "arn:aws:iam::${account_id}:policy/${policy_name}"
+      - aws iam delete-policy --policy-arn "arn:aws:iam::${account_id}:policy/${policy_name}"
+      - aws iam delete-role --role-name $role_name 

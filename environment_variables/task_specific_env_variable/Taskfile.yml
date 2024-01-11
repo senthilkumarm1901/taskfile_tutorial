@@ -1,0 +1,22 @@
+version: '3'
+
+
+tasks:
+  list_directories_under_parent_dir:
+    env:
+      DIR: ../../../taskfile_tutorial
+    cmds:
+      - find $DIR -type d
+  
+  list_files_under_current_dir:
+    env:
+      DIR: 
+        sh: echo $PWD
+    cmds:
+      - find $DIR -type f
+  
+  create_new_dir:
+    cmds:
+      - # this $DIR is passed during run time `DIR=new_dir_name task create_new_dir`
+      - # the above line is an example of passing environment variable from outside the taskfile
+      - mkdir -p $DIR && ls ./

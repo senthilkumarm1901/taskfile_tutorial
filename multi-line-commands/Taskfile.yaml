@@ -1,0 +1,24 @@
+version: '3'
+
+tasks:
+  multi-line-replace-command:
+    cmds: 
+     - |
+        sed -e "s|<NAME>|SENTHIL|g" \
+        -e "s|<EMAIL>|senthilkumar.m1901@gmail.com|g" \
+        contact_details.txt 
+
+  will_not_work:
+    cmds:
+      - echo "Running in different lines"
+      - export A="some_value"
+      - echo "Value of A - $A"
+    silent: true
+
+  will_work:
+    cmds:
+      - echo "Running in the same line"
+      - |
+        export A="some_value"
+        echo "Value of A - $A"
+    silent: true

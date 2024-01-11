@@ -1,0 +1,20 @@
+version: '3'
+
+tasks:
+  count_files_inside_current_dir:
+    dir: "{{.USER_WORKING_DIR}}"
+    cmds:
+      - echo "Number of files in {{.USER_WORKING_DIR}} "
+      - ls -l | grep -v "^d" | wc -l
+    silent: true
+
+  search_files_inside_current_dir:
+    dir: "{{.USER_WORKING_DIR}}"
+    cmds:
+      - find {{.USER_WORKING_DIR}} -type f -name {{.CLI_ARGS}}
+    silent: true
+
+  search_all_files_except:
+    cmds:
+      - find {{.USER_WORKING_DIR}} -type f | grep -v {{.CLI_ARGS}}
+    silent: true

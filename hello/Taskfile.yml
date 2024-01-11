@@ -1,0 +1,15 @@
+version: '3'
+
+tasks:
+  hello:
+    cmds:
+      - echo 'Hello World!'
+    silent: true
+
+  # want to know what commands are you running inside a task?
+  # keep `silent: false`
+  hello_again:
+    cmds:
+      - echo 'Hello Again!'
+    silent: false
+

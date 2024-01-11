@@ -1,0 +1,30 @@
+version: '3'
+
+tasks:
+  # introducing a special variable '{{.USER_WORKING_DIR}}'
+  count_files:
+    dir: '{{.USER_WORKING_DIR}}'
+    cmds:
+      - echo "Number of files in {{.USER_WORKING_DIR}} "
+      - find . -maxdepth 1 -type f | wc -l 
+    silent: true
+
+  # introducing a special variable '{{.CLI_ARGS}}'
+  # introducing passing special arguments
+  # task count_only_txt_files -- '*.txt'
+  count_only_txt_files:
+    dir: '{{.USER_WORKING_DIR}}'
+    cmds:
+      - echo "Number of txt files in {{.USER_WORKING_DIR}}"
+      - find . -maxdepth 1 -type f -name '{{.CLI_ARGS}}' | wc -l 
+    silent: true
+
+  # what if you need to pass two arguments used in two different commands
+  # there is still only the hacky of splitting by a delimiter
+  # since '{{.CLI_ARGS}}' is just 1 string
+  # task passing_arguments -- arg 1,arg 2
+  passing_multiple_arguments:
+    cmds:
+      - echo "First - {{(split "," .CLI_ARGS)._0}}"
+      - echo "Second - {{(split "," .CLI_ARGS)._1}}"
+    silent: true

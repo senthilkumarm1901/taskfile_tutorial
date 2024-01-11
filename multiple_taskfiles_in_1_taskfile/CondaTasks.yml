@@ -1,0 +1,9 @@
+version: '3'
+
+tasks:
+  list_python_environments:
+    cmds:
+      - echo "The Python Conda Environments are"
+      - conda info -e | awk -F' ' '{ print $1 }' | grep -E '[a-z_-]+'
+      - echo ""
+    silent: true
