@@ -18,17 +18,17 @@ tasks:
       Step 2: Create the role with the trust_policy
       Step 3: Attach policy to role
     cmds:
-      - task iam_tasks: create_policy
-      - task iam_tasks: create_role_with_lambda_trust_policy
-      - task iam_tasks: attach_policy_to_role
-      - task iam_tasks: get_role_arn
+      - task iam_tasks:create_policy
+      - task iam_tasks:create_role_with_lambda_trust_policy
+      - task iam_tasks:attach_policy_to_role
+      - task iam_tasks:get_role_arn
     silent: false
     
   2_create_lambda:
     summary: |
       Goal: Create a lambda 
     cmds:
-      - task lambda_creation_tasks: create_lambda_name
+      - task lambda_creation_tasks:create_lambda_name
     silent: false
 
   3_invoke_lambda_multiple_times:
@@ -36,8 +36,8 @@ tasks:
       Goal: Test the lambda with various test events
 
     cmds:
-      - task testing_and_cleanup_tasks: test_event_1
-      - task testing_and_cleanup_tasks: test_event_2
+      - task testing_and_cleanup_tasks:test_event_1
+      - task testing_and_cleanup_tasks:test_event_2
     silent: false
   
   4_cleanup:
@@ -46,7 +46,7 @@ tasks:
         lambda, iam_policy and role
 
     cmds:
-      - task iam_tasks: clean_iam_policy_and_role
-      - task lambda_creation_tasks: clean_lambda
+      - task iam_tasks:clean_iam_policy_and_role
+      - task lambda_creation_tasks:clean_lambda
     silent: false
     
