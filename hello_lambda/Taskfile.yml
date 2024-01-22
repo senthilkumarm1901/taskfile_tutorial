@@ -5,18 +5,18 @@ includes:
     taskfile: ./IAM_tasks.yml
   lambda_creation_tasks:
     taskfile: ./lambda_creation_tasks.yml
-  testing_and_cleanup_tasks:
+  testing_tasks:
     taskfile: ./lambda_invoke_tasks.yml
 
 tasks:
   1_setup_iam_policy_and_role:
     summary: |
-      Goal: Steps to create IAM Policy and Role
-      Step 0: Prepare the IAM_Policy json (the permissions that the lambda function needs such as Cloudwatch or S3) and 
+      Goal - Steps to create IAM Policy and Role
+      Step 0- Prepare the IAM_Policy json (the permissions that the lambda function needs such as Cloudwatch or S3) and 
         trust policy json (the role needs to assume a policy to invoke the lambda)
-      Step 1: Create the policy (we are having an empty policy; no extra permission needed)
-      Step 2: Create the role with the trust_policy
-      Step 3: Attach policy to role
+      Step 1- Create the policy (we are having an empty policy; no extra permission needed)
+      Step 2- Create the role with the trust_policy
+      Step 3- Attach policy to role
     cmds:
       - task iam_tasks:create_policy
       - task iam_tasks:create_role_with_lambda_trust_policy
@@ -28,18 +28,17 @@ tasks:
     summary: |
       Goal: Create a lambda 
     cmds:
-      - task lambda_creation_tasks:create_lambda_name
+      - task lambda_creation_tasks:create_lambda_function
     silent: false
 
   3_invoke_lambda_multiple_times:
     summary: |
       Goal: Test the lambda with various test events
-
     cmds:
-      - task testing_and_cleanup_tasks:test_event_1
-      - task testing_and_cleanup_tasks:test_event_2
-    silent: false
-  
+      - task testing_tasks:test_event_1
+      - task testing_tasks:test_event_2
+    silent: true
+    
   4_cleanup:
     summary: |
       Goal: Clean all the resources you had created such as 
@@ -47,6 +46,5 @@ tasks:
 
     cmds:
       - task iam_tasks:clean_iam_policy_and_role
-      - task lambda_creation_tasks:clean_lambda
+      - task lambda_creation_tasks:delete_lambda_function
     silent: false
-    

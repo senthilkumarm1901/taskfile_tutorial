@@ -3,14 +3,20 @@ version: '3'
 env: 
   LAMBDA_FUNCTION_NAME: 
     sh: basename $PWD
-    # the above command picks up the folder name `hello_lambda`
-
-  IAM_ROLE_ARN:
-    sh: (cat ./supporting_files/iam_tasks/final_role_arn.txt | cut -d= -f2)
+    # the above command picks up the folder name `generic_openai_handler`
 
 tasks:
-  create_lambda_name:
+
+  create_lambda_function:
+    env:
+      IAM_ROLE_ARN:
+        sh: (cat ./supporting_files/iam_tasks/final_role_arn.txt | cut -d= -f2) 
     cmds:
-      - zip -r ${LAMBDA_FUNCTION_NAME}.zip lambda_function.py
-      - bash supporting_files/lambda_creation/ aws_cli_command_for_lambda_creation.bash $LAMBDA_FUNCTION_NAME $IAM_ROLE_ARN
+      - zip -r ${LAMBDA_FUNCTION_NAME}.zip hello_lambda.py
+      - bash supporting_files/lambda_creation/aws_cli_command_for_lambda_creation.bash $LAMBDA_FUNCTION_NAME $IAM_ROLE_ARN
+    silent: false
+
+  delete_lambda_function:
+    cmds:
+      - aws lambda delete-function --function-name $LAMBDA_FUNCTION_NAME
     silent: false
