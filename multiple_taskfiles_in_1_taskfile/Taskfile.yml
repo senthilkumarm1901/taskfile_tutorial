@@ -5,10 +5,13 @@ includes:
     taskfile: ./CondaTasks.yml
   docker_tasks:
     taskfile: ./DockerTasks.yml
+  pipenv_tasks:
+    taskfile: ./PipenvTasks.yml
 
 tasks:
   list_python_environments:
     cmds:
       - task conda_tasks:list_python_environments
       - task docker_tasks:list_python_images
+      - task pipenv_tasks:list_locations_of_pipenv_environments
     silent: true
