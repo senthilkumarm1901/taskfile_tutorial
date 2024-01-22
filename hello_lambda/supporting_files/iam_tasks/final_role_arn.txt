@@ -1,0 +1,1 @@
+ROLE_ARN=arn:aws:iam::<account_number>:role/invoke_hello_lambda
