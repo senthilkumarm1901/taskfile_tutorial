@@ -61,11 +61,13 @@ tasks:
     summary: |
       Step 17 - delete_security_group
       Step 18 - modify_public_subnet_attribute
-      Step 19 - delete_subnet
+      Step 19 - delete_public_route_table, delete_intetnet_gateway and delete_subnet
       Step 20 - delete_vpc
     cmds:
       - task sub_task:delete_security_group
       - task sub_task:modify_public_subnet_attribute
+      - task sub_task:delete_public_route_table
+      - task sub_task:delete_intetnet_gateway
       - task sub_task:delete_subnet 
       - task sub_task:delete_vpc
 

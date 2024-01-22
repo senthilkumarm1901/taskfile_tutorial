@@ -206,3 +206,55 @@ tasks:
       - aws ec2 delete-security-group --group-id $sec_group_id
       - aws ec2 modify-subnet-attribute --subnet-id $public_subnet_id --no-map-public-ip-on-launch
     silent: false
+
+  delete-security-group:
+    summary: |
+      deleting the EC2 security group
+    env:
+      sec_group_id:
+        sh: cat create-security-group.json | jp -u 'GroupId'
+    cmds:
+      - aws ec2 delete-security-group --group-id $sec_group_id
+    silent: false
+
+  modify_public_subnet_attribute:
+    summary: |
+      modifying the public subnet attributes.
+    env:
+      sec_group_id:
+        sh: cat create-security-group.json | jp -u 'GroupId'
+      public_subnet_id:
+        sh: echo $(cat command_outputs/create-public-subnet1-output.json | jp -u 'Subnet.SubnetId')  
+    cmds:
+      - aws ec2 modify-subnet-attribute --subnet-id $public_subnet_id --no-map-public-ip-on-launch
+    silent: false
+  
+  delete_subnet:
+    env:
+      public_subnet_id:
+        sh: echo $(cat command_outputs/create-public-subnet1-output.json | jp -u 'Subnet.SubnetId')  
+    cmds:
+      - aws ec2 delete-subnet --subnet-id $public_subnet_id
+    silent: false
+
+  delete_public_route_table:
+    env:
+      public_sub_route_table_id:
+        sh: echo $(cat command_outputs/route-table-public-subnet-op.json | jp -u 'RouteTable.RouteTableId')
+    cmds:
+      - aws ec2 delete-route-table --route-table-id $public_sub_route_table_id
+    silent: false
+
+  delete_intetnet_gateway:
+    env: 
+      ig_id:
+        sh: echo $(cat command_outputs/create-ig.json | jp -u 'InternetGateway.InternetGatewayId')
+    cmds:
+      - aws ec2 delete-internet-gateway --internet-gateway-id $ig_id
+
+  delete_vpc:
+    env:
+      vpc_id:
+        sh: echo $(jp -f command_outputs/describe_vpcs.json -u 'join(`","`,Vpcs[?Tags[?Value==`"EC2VPC"`]].VpcId)')
+    cmds:
+      - aws ec2 delete-vpc --vpc-id $vpc_id
