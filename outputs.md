@@ -84,3 +84,13 @@ multi-line-commands % task multi-line-replace-command
 I am SENTHIL. My email id is senthilkumar.m1901@gmail.com
 
 ---
+
+The Python Conda Environments are
+base
+boto3_local
+openai_tiktoken_dotenv_pandas
+
+The Python Docker images are
+ubuntu 22.04
+amazon/aws-lambda-python 3.8_with_zip
+public.ecr.aws/lambda/python 3.8
